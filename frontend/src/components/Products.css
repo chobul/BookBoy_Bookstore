@@ -47,11 +47,13 @@
 }
 
 .search-bar input {
-  padding: 0.5rem 1rem;
-  width: 300px;
+  box-sizing: border-box;
+  height: 60px;
+  padding: 0.85rem 1.2rem;
+  width: min(520px, 90vw);
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 1.15rem;
   outline: none;
   transition: border-color 0.3s;
 }
