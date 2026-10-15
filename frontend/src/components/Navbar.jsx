@@ -17,7 +17,7 @@ const Navbar = () => {
         <li><Link to="/cart">Cart</Link></li> {/* Restored Cart link */}
         <li><Link to="/shipping">Shipping</Link></li> {/* Add Shipping link */}
         <li><Link to="/notifications">Notifications</Link></li>
-        <li><Link to="/Login">Logout</Link></li>
+        <li><Link to="/login">Logout</Link></li>
       </ul>
 
       <div className="search-container">
