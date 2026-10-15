@@ -8,8 +8,8 @@ const Section = () => {
       <div className="main" id="Home">
         <div className="main_content">
           <div className="main_image">
-            <img src="./src/img/4.PNG" alt="" />
-            <img src="./src/img/2.png" alt="" />
+            <img src="/img/4.PNG" alt="" />
+            <img src="/img/2.png" alt="" />
             {/* <img src="./src/img/kagurabachi.PNG" alt="Nike Shoes" /> */}
           </div>
 
@@ -26,10 +26,6 @@ const Section = () => {
           <i className="fa-brands fa-instagram"></i>
           <i className="fa-brands fa-linkedin-in"></i>
         </div>
-        {/* <div className="button">
-          <a href="#">SHOP NOW</a>
-          <i className="fa-solid fa-chevron-right"></i>
-        </div> */}
       </div>
     </section>
   );
