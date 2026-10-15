@@ -19,7 +19,7 @@ import reviewRoutes from './routes/reviewRoutes.js'; // Import review routes
 import { authMiddleware } from './middleware/authMiddleware.js'; // Import auth middleware
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());

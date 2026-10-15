@@ -1,23 +1,14 @@
 import mysql from 'mysql2/promise';
-
-// Create a MySQL connection pool
-const pool = mysql.createPool({
-  host: 'localhost', // Update with your MySQL host
-  user: 'root',      // Update with your MySQL username
-  password: 'root',  // Update with your MySQL password
-  database: 'book_catalog', // Update with your MySQL database name
-  charset: 'utf8mb4', // Ensure this is set
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
+import { pool } from '../config/db.js';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+const withCover = (img) => (img ? (img.startsWith('http') ? img : `${BASE_URL}${img}`) : null);
 
 export const getAllBooks = async (req, res) => {
   try {
     const [books] = await pool.query('SELECT * FROM books');
     const updatedBooks = books.map((book) => ({
       ...book,
-      cover_image: book.cover_image ? `http://localhost:3000${book.cover_image}` : null,
+      cover_image: withCover(book.cover_image),
     }));
     res.json(updatedBooks);
   } catch (error) {
@@ -32,7 +23,7 @@ export const getBookById = async (req, res) => {
       return res.status(404).json({ message: 'Book not found' });
     }
     const book = books[0];
-    book.cover_image = book.cover_image ? `http://localhost:3000${book.cover_image}` : null;
+    book.cover_image = withCover(book.cover_image);
     res.json(book);
   } catch (error) {
     res.status(500).json({ message: error.message });

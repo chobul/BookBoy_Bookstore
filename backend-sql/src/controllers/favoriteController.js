@@ -1,12 +1,6 @@
 import mysql from 'mysql2/promise';
 
-// Create a MySQL connection pool
-const pool = mysql.createPool({
-  host: 'localhost', // Update with your MySQL host
-  user: 'root',      // Update with your MySQL username
-  password: 'root',  // Update with your MySQL password
-  database: 'book_catalog', // Update with your MySQL database name
-});
+import { pool } from '../config/db.js';
 
 export const getFavorites = async (req, res) => {
   try {

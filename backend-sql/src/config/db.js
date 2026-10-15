@@ -3,11 +3,13 @@ import fs from 'fs';
 import path from 'path';
 
 const pool = mysql.createPool({
-  host: "localhost", // your MySQL host
-  user: "root",      // your MySQL username
-  password: "root",  // your MySQL password
-  database: "book_catalog", // your MySQL database name
+  host: process.env.DB_HOST || "localhost",
+  port: Number(process.env.DB_PORT) || 3306,
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "root",
+  database: process.env.DB_NAME || "book_catalog",
   charset: "utf8mb4", // support Thai characters
+  ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : undefined,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -16,12 +18,13 @@ const pool = mysql.createPool({
 // Ensure uploads directory exists
 const uploadsDir = path.resolve('uploads');
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
+  fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
 const connectDB = async () => {
   try {
-    await pool.getConnection(); // Test the connection
+    const conn = await pool.getConnection(); // Test the connection
+    conn.release();
     console.log("Connected to MySQL database successfully!");
   } catch (error) {
     console.error("Error connecting to MySQL:", error);

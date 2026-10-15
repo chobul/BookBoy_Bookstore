@@ -2,14 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mysql from 'mysql2/promise';
 
-// Create a MySQL connection pool
-const pool = mysql.createPool({
-  host: 'localhost', // Update with your MySQL host
-  user: 'root',      // Update with your MySQL username
-  password: 'root', // Update with your MySQL password
-  database: 'book_catalog', // Update with your MySQL database name
-});
-
+import { pool } from '../config/db.js';
 
 export const registerUser = async (req, res) => {
   const { username, password, role, phone } = req.body; // Added phone
@@ -57,7 +50,7 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user.id, role: user.role }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET || 'your_jwt_secret', { expiresIn: '1h' });
 
     res.status(200).json({ token });
   } catch (error) {
@@ -78,8 +71,8 @@ export const refreshToken = (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(token, 'your_jwt_secret');
-    const newToken = jwt.sign({ id: decoded.id, role: decoded.role }, 'your_jwt_secret', { expiresIn: '1h' });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+    const newToken = jwt.sign({ id: decoded.id, role: decoded.role }, process.env.JWT_SECRET || 'your_jwt_secret', { expiresIn: '1h' });
 
     res.status(200).json({ token: newToken });
   } catch (error) {
