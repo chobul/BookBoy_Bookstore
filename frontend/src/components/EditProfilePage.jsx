@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -14,7 +15,7 @@ const EditProfilePage = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        'http://localhost:3000/api/users/me',
+        `${API_BASE}/api/users/me`,
         { username, password, phone }, // Include phone in the request
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -28,7 +29,7 @@ const EditProfilePage = () => {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete('http://localhost:3000/api/users/me', {
+      await axios.delete(`${API_BASE}/api/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage('Profile deleted successfully!');

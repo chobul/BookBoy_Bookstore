@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState, useEffect } from 'react';
 import AdminNavbar from './AdminNavbar';
 import { FaClock, FaSync, FaTruck, FaCheckCircle, FaTrash } from 'react-icons/fa'; // Added FaTrash
@@ -11,7 +12,7 @@ const AdminOrderPage = () => {
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:3000/api/orders', {
+        const response = await fetch(`${API_BASE}/api/orders`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -44,7 +45,7 @@ const AdminOrderPage = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+      const response = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ const AdminOrderPage = () => {
   const handleDeleteOrder = async (orderId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+      const response = await fetch(`${API_BASE}/api/orders/${orderId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

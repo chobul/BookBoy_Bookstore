@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar'; // นำเข้า Navbar
@@ -12,7 +13,7 @@ const Favorites = () => {
     const fetchFavorites = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/api/favorites', {
+        const response = await axios.get(`${API_BASE}/api/favorites`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFavorites(response.data);
@@ -27,7 +28,7 @@ const Favorites = () => {
   const handleRemoveFavorite = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/favorites/${id}`, {
+      await axios.delete(`${API_BASE}/api/favorites/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFavorites(favorites.filter((favorite) => favorite.id !== id));
@@ -55,7 +56,7 @@ const Favorites = () => {
                 src={
                   favorite.cover_image.startsWith('http')
                     ? favorite.cover_image
-                    : `http://localhost:3000${favorite.cover_image}`
+                    : `${API_BASE}${favorite.cover_image}`
                 }
                 alt={favorite.title}
               />

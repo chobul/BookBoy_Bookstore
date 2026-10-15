@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
@@ -11,7 +12,7 @@ const NotificationsPage = () => {
     const fetchNotifications = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/api/notifications', {
+        const response = await axios.get(`${API_BASE}/api/notifications`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setNotifications(response.data);
@@ -26,7 +27,7 @@ const NotificationsPage = () => {
   const handleDeleteNotification = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/notifications/${id}`, {
+      await axios.delete(`${API_BASE}/api/notifications/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNotifications(notifications.filter((notification) => notification.id !== id));

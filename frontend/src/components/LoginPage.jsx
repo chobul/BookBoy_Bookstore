@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,7 +12,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const loginResponse = await axios.post('http://localhost:3000/api/auth/login', {
+      const loginResponse = await axios.post(`${API_BASE}/api/auth/login`, {
         username,
         password,
       });
@@ -19,7 +20,7 @@ const LoginPage = () => {
       localStorage.setItem('token', token); // Save token to localStorage
 
       // Fetch user role using the token
-      const userResponse = await axios.get('http://localhost:3000/api/users/me', {
+      const userResponse = await axios.get(`${API_BASE}/api/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`, // Pass token in Authorization header
         },

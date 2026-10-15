@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -17,7 +18,7 @@ const AdminPage = () => {
     const fetchBooks = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/api/books', {
+        const response = await axios.get(`${API_BASE}/api/books`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setBooks(response.data); // รับข้อมูลหนังสือ
@@ -30,7 +31,7 @@ const AdminPage = () => {
     const checkAdminRole = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/api/users/me', {
+        const response = await axios.get(`${API_BASE}/api/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.data.role !== 'admin') {
@@ -71,14 +72,14 @@ const AdminPage = () => {
       const config = { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' } };
 
       if (editingBookId) {
-        await axios.put(`http://localhost:3000/api/books/${editingBookId}`, formDataToSend, config);
+        await axios.put(`${API_BASE}/api/books/${editingBookId}`, formDataToSend, config);
         setMessage('Book updated successfully!');
       } else {
-        await axios.post('http://localhost:3000/api/books', formDataToSend, config);
+        await axios.post(`${API_BASE}/api/books`, formDataToSend, config);
         setMessage('Book added successfully!');
 
         // Fetch all users to send notifications
-        const usersResponse = await axios.get('http://localhost:3000/api/users', {
+        const usersResponse = await axios.get(`${API_BASE}/api/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -88,7 +89,7 @@ const AdminPage = () => {
         await Promise.all(
           users.map((user) =>
             axios.post(
-              'http://localhost:3000/api/notifications',
+              `${API_BASE}/api/notifications`,
               {
                 user_id: user.id,
                 message: 'มีหนังสือใหม่เข้าร้าน!',
@@ -109,7 +110,7 @@ const AdminPage = () => {
         fileInput.value = '';
       }
 
-      const updatedBooks = await axios.get('http://localhost:3000/api/books', {
+      const updatedBooks = await axios.get(`${API_BASE}/api/books`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBooks(updatedBooks.data);
@@ -128,7 +129,7 @@ const AdminPage = () => {
   const handleDeleteBook = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/books/${id}`, {
+      await axios.delete(`${API_BASE}/api/books/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setBooks(books.filter((book) => book.id !== id));
@@ -270,7 +271,7 @@ const AdminPage = () => {
                     src={
                       book.cover_image.startsWith('http')
                         ? book.cover_image
-                        : `http://localhost:3000${book.cover_image}`
+                        : `${API_BASE}${book.cover_image}`
                     }
                     alt={book.title}
                     width="50"

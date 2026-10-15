@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -18,7 +19,7 @@ const ViewOrderDetails = () => {
 
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+        const response = await fetch(`${API_BASE}/api/orders/${orderId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

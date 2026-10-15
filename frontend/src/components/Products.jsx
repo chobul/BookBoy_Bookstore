@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,7 +12,7 @@ const Products = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/books');
+        const response = await axios.get(`${API_BASE}/api/books`);
         setProducts(response.data);
       } catch (error) {
         setMessage('Failed to fetch products.');
@@ -69,7 +70,7 @@ const Products = () => {
                 src={
                   product.cover_image.startsWith('http')
                     ? product.cover_image
-                    : `http://localhost:3000${product.cover_image}`
+                    : `${API_BASE}${product.cover_image}`
                 }
                 alt={`Product ${product.id}`}
               />

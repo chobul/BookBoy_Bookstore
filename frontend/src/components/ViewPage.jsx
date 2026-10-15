@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios'; // เพิ่มการนำเข้า axios
@@ -24,14 +25,14 @@ const ViewPage = () => {
       const productId = location.state?.product?.id;
       if (productId) {
         try {
-          const response = await fetch(`http://localhost:3000/api/books/${productId}`);
+          const response = await fetch(`${API_BASE}/api/books/${productId}`);
           if (response.ok) {
             const data = await response.json();
             setProduct({
               ...data,
               image: data.cover_image.startsWith('http')
                 ? data.cover_image
-                : `http://localhost:3000${data.cover_image}`,
+                : `${API_BASE}${data.cover_image}`,
             });
           } else {
             console.error('Failed to fetch product details');
@@ -58,7 +59,7 @@ const ViewPage = () => {
 
       if (productId) {
         try {
-          const response = await axios.get(`http://localhost:3000/api/reviews/${productId}`, {
+          const response = await axios.get(`${API_BASE}/api/reviews/${productId}`, {
             headers: {
               Authorization: `Bearer ${token}`, // Include the token in the Authorization header
             },
@@ -119,7 +120,7 @@ const ViewPage = () => {
 
       if (!isFavorite) {
         await axios.post(
-          `http://localhost:3000/api/favorites/${product.id}`, // ✅ ใส่ bookId ใน path ตาม backend
+          `${API_BASE}/api/favorites/${product.id}`, // ✅ ใส่ bookId ใน path ตาม backend
           {}, // body ว่าง
           {
             headers: {
@@ -164,7 +165,7 @@ const ViewPage = () => {
     if (productId && newReview.trim()) {
       try {
         const response = await axios.post(
-          `http://localhost:3000/api/reviews/${productId}`,
+          `${API_BASE}/api/reviews/${productId}`,
           { comment: newReview }, // Use `comment` as per reviewController
           {
             headers: {

@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,7 +14,7 @@ const AdminUserPage = () => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/api/users', {
+        const response = await axios.get(`${API_BASE}/api/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsers(response.data);
@@ -25,7 +26,7 @@ const AdminUserPage = () => {
     const checkAdminRole = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/api/users/me', {
+        const response = await axios.get(`${API_BASE}/api/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.data.role !== 'admin') {
@@ -44,7 +45,7 @@ const AdminUserPage = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:3000/api/users/${userId}`, // Corrected endpoint
+        `${API_BASE}/api/users/${userId}`, // Corrected endpoint
         { role: newRole }, // Ensure the body contains the role field
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -59,7 +60,7 @@ const AdminUserPage = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:3000/api/users/${userId}`,
+        `${API_BASE}/api/users/${userId}`,
         updatedData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -77,7 +78,7 @@ const AdminUserPage = () => {
       if (password) updatedData.password = password;
 
       await axios.put(
-        `http://localhost:3000/api/users/${userId}`,
+        `${API_BASE}/api/users/${userId}`,
         updatedData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -91,7 +92,7 @@ const AdminUserPage = () => {
   const handleDelete = async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/users/${userId}`, {
+      await axios.delete(`${API_BASE}/api/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(users.filter(user => user.id !== userId));

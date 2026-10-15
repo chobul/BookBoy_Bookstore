@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -42,7 +43,7 @@ const CheckoutPage = () => {
     const fetchAddresses = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/api/address', {
+        const response = await axios.get(`${API_BASE}/api/address`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -98,7 +99,7 @@ const CheckoutPage = () => {
       const userId = decodedToken.id;
 
       const response = await axios.post(
-        'http://localhost:3000/api/orders',
+        `${API_BASE}/api/orders`,
         {
           address_id: formData.address,
           payment_method: formData.paymentMethod,
@@ -110,7 +111,7 @@ const CheckoutPage = () => {
       );
 
       await axios.post(
-        'http://localhost:3000/api/notifications',
+        `${API_BASE}/api/notifications`,
         {
           user_id: userId,
           message: 'ชำระเสร็จสิ้น',

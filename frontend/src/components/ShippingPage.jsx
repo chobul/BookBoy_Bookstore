@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import './ShippingPage.css';
@@ -12,7 +13,7 @@ const ShippingPage = () => {
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:3000/api/orders', {
+        const response = await fetch(`${API_BASE}/api/orders`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

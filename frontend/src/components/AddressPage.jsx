@@ -1,3 +1,4 @@
+import { API_BASE } from '../config';
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import axios from 'axios';
@@ -19,7 +20,7 @@ const AddressPage = () => {
     const fetchAddresses = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:3000/api/address', {
+        const response = await axios.get(`${API_BASE}/api/address`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAddresses(response.data);
@@ -43,7 +44,7 @@ const AddressPage = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'http://localhost:3000/api/address',
+        `${API_BASE}/api/address`,
         { street_address, province, postal_code, country }, // Match the provided request body
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -68,7 +69,7 @@ const AddressPage = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:3000/api/address/${editAddress.address_id}`,
+        `${API_BASE}/api/address/${editAddress.address_id}`,
         { street_address, province, postal_code, country },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -89,7 +90,7 @@ const AddressPage = () => {
   const handleDeleteAddress = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:3000/api/address/${id}`, {
+      await axios.delete(`${API_BASE}/api/address/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
